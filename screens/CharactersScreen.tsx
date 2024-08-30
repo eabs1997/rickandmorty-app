@@ -22,9 +22,7 @@ const CharactersScreen = ({ navigation }: DrawerProps & CharactersScreenProps) =
 	// 	},
 	// });
 	return (
-		// <LinearGradient colors={['#055363', '#041528']}>
 		<FlatList
-			style={{ backgroundColor: '#272b33' }}
 			data={data?.results}
 			renderItem={({ item }) => {
 				return (
@@ -38,7 +36,6 @@ const CharactersScreen = ({ navigation }: DrawerProps & CharactersScreenProps) =
 			}}
 			keyExtractor={(item) => item.id}
 		/>
-		// </LinearGradient>
 	);
 };
 

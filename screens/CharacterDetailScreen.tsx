@@ -13,28 +13,7 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 		queryFn: async () => await getCharacter(route.params.id),
 	});
 	console.log(data);
-	const DATA = [
-		{
-			title: 'Main dishes',
-			data: [{ name: 'Pizza' }, { name: 'Burger' }, { name: 'Risotto' }],
-		},
-		{
-			title: 'Main dishes',
-			data: [{ name: 'Pizza' }, { name: 'Burger' }, { name: 'Risotto' }],
-		},
-		// {
-		// 	title: 'Sides',
-		// 	data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-		// },
-		// {
-		// 	title: 'Drinks',
-		// 	data: ['Water', 'Coke', 'Beer'],
-		// },
-		// {
-		// 	title: 'Desserts',
-		// 	data: ['Cheese Cake', 'Ice Cream'],
-		// },
-	];
+
 	// Then get the user's projects
 	const { data: episodes, isLoading: isLoadingEpisodes } = useQuery({
 		queryKey: ['episodes', data?.episode],
@@ -80,15 +59,15 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 						<Text style={{ color: 'white', fontSize: 32 }}>Information</Text>
 					</View>
 					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: '#9e9e9e' }]}>Gender</Text>
+						<Text style={[styles.text, { color: '#8ba2ae' }]}>Gender</Text>
 						<Text style={styles.text}>{data.gender}</Text>
 					</View>
 					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: '#9e9e9e' }]}>Origin</Text>
+						<Text style={[styles.text, { color: '#8ba2ae' }]}>Origin</Text>
 						<Text style={styles.text}>{data.origin.name}</Text>
 					</View>
 					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: '#9e9e9e' }]}>Last known location:</Text>
+						<Text style={[styles.text, { color: '#8ba2ae' }]}>Last known location:</Text>
 						<Text style={styles.text}>{data.location.name}</Text>
 					</View>
 				</View>
@@ -111,7 +90,7 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 								</View>
 							)}
 							renderSectionHeader={({ section: { title } }) => (
-								<Text style={[styles.title, { marginTop: 5 }]}>{title}</Text>
+								<Text style={[styles.title, { marginTop: 12, color: '#8ba2ae' }]}>{title}</Text>
 							)}
 						/>
 					)}
@@ -127,20 +106,15 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		margin: 16,
-		borderRadius: 8,
-		backgroundColor: '#3c3e44',
-
-		// elevation: 4,
-		// backgroundColor: 'white',
-		// shadowColor: 'black',
-		// shadowOpacity: 0.25,
-		// textShadowOffset: { width: 0, height: 2 },
-		// textShadowRadius: 8,
+		backgroundColor: '#0f1113',
+		borderRadius: 16,
+		borderWidth: 1,
+		borderColor: '#3f4042',
 	},
 	image: {
 		height: 400,
-		borderTopRightRadius: 8,
-		borderTopLeftRadius: 8,
+		borderTopRightRadius: 16,
+		borderTopLeftRadius: 16,
 		flex: 1,
 	},
 	title: {
@@ -162,9 +136,11 @@ const styles = StyleSheet.create({
 	innerContainer: {
 		padding: 12,
 		textAlign: 'left',
-		backgroundColor: '#3c3e44',
-		borderBottomRightRadius: 8,
-		borderBottomLeftRadius: 8,
+		backgroundColor: '#0f1113',
+		borderTopWidth: 2,
+		borderColor: '#3f4042',
+		borderBottomRightRadius: 14,
+		borderBottomLeftRadius: 14,
 	},
 	infoContainer: {
 		marginTop: 10,

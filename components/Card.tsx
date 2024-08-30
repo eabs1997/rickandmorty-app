@@ -23,7 +23,7 @@ export const Card = (props: { item: any; onPress: any }) => {
 						</View>
 					</View>
 					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: '#9e9e9e' }]}>Last known location:</Text>
+						<Text style={[styles.text, { color: '#8ba2ae' }]}>Last known location:</Text>
 						<Text style={styles.text}>{item.location.name}</Text>
 					</View>
 				</View>
@@ -36,18 +36,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		margin: 16,
-		borderRadius: 8,
-		elevation: 4,
-		backgroundColor: 'white',
-		shadowColor: 'black',
-		shadowOpacity: 0.25,
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 8,
+		borderRadius: 16,
+		borderWidth: 1,
+		borderColor: '#3f4042',
 	},
 	image: {
 		height: 300,
-		borderTopRightRadius: 8,
-		borderTopLeftRadius: 8,
+		borderTopRightRadius: 16,
+		borderTopLeftRadius: 16,
 		flex: 1,
 	},
 	title: {
@@ -62,9 +58,11 @@ const styles = StyleSheet.create({
 	innerContainer: {
 		padding: 12,
 		textAlign: 'left',
-		backgroundColor: '#3c3e44',
-		borderBottomRightRadius: 8,
-		borderBottomLeftRadius: 8,
+		backgroundColor: '#0f1113',
+		borderTopWidth: 2,
+		borderColor: '#3f4042',
+		borderBottomRightRadius: 14,
+		borderBottomLeftRadius: 14,
 	},
 	infoContainer: {
 		marginTop: 20,
