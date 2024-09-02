@@ -5,6 +5,8 @@ import type { DrawerScreenProps } from '@react-navigation/drawer';
 export type DrawerParamList = {
 	Home: undefined;
 
+	Detail: { id: number };
+
 	Favorites: undefined;
 };
 
@@ -14,7 +16,7 @@ export type CharactersStackParamList = {
 	Detail: { id: number };
 };
 
-export type DrawerProps = NativeStackScreenProps<DrawerParamList, 'Home'>;
+export type DrawerProps = DrawerScreenProps<DrawerParamList, 'Home'>;
 
 export type LocationsStackParamList = {
 	Detail: { id: number; screen: string };

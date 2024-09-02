@@ -1,10 +1,10 @@
-import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { FlatList } from 'react-native';
 import { getAllCharacters } from '../services/CharactersService';
 import { Card } from '../components/Card';
-import { CharactersScreenProps, DrawerProps } from '../types/navigation';
+import { DrawerProps } from '../shared/types/navigation';
 
-const CharactersScreen = ({ navigation }: DrawerProps & CharactersScreenProps) => {
+const CharactersScreen = ({ navigation }: DrawerProps) => {
 	// Access the client
 	const queryClient = useQueryClient();
 
@@ -13,14 +13,7 @@ const CharactersScreen = ({ navigation }: DrawerProps & CharactersScreenProps) =
 		queryKey: ['characters'],
 		queryFn: async () => await getAllCharacters(),
 	});
-	// Mutations
-	// const mutation = useMutation({
-	// 	mutationFn: postTodo,
-	// 	onSuccess: () => {
-	// 		// Invalidate and refetch
-	// 		queryClient.invalidateQueries({ queryKey: ['todos'] });
-	// 	},
-	// });
+
 	return (
 		<FlatList
 			data={data?.results}
@@ -34,7 +27,7 @@ const CharactersScreen = ({ navigation }: DrawerProps & CharactersScreenProps) =
 					/>
 				);
 			}}
-			keyExtractor={(item) => item.id}
+			keyExtractor={(item) => `${item.id}`}
 		/>
 	);
 };

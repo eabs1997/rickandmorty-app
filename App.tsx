@@ -14,9 +14,10 @@ import {
 	CharactersStackParamList,
 	DrawerParamList,
 	LocationsStackParamList,
-} from './types/navigation';
+} from './shared/types/navigation';
 import CharacterDetailScreen from './screens/CharacterDetailScreen';
 import LocationsScreen from './screens/LocationsScreen';
+import { Colors } from './shared/constants/colors';
 
 const Stack = createNativeStackNavigator<CharactersStackParamList & LocationsStackParamList>();
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -34,9 +35,13 @@ const CharactersStackNavigator = () => {
 			/>
 			<Stack.Screen
 				options={{
-					contentStyle: { backgroundColor: '#0f1113', borderTopWidth: 1, borderColor: '#3f4042' },
-					headerTintColor: '#97ce4c',
-					headerStyle: { backgroundColor: '#0f1113' },
+					contentStyle: {
+						backgroundColor: Colors.gray950,
+						borderTopWidth: 1,
+						borderColor: Colors.gray700,
+					},
+					headerTintColor: Colors.green400,
+					headerStyle: { backgroundColor: Colors.gray950 },
 					headerBackTitle: 'Characters',
 				}}
 				name="Detail"
@@ -48,29 +53,28 @@ const CharactersStackNavigator = () => {
 
 const CharactersDrawerNavigator = () => {
 	return (
-		// #3f4042
 		<Drawer.Navigator
 			screenOptions={{
 				headerStyle: {
-					backgroundColor: '#0f1113',
+					backgroundColor: Colors.gray950,
 				},
-				headerTintColor: '#97ce4c',
+				headerTintColor: Colors.green400,
 				drawerContentStyle: {
-					backgroundColor: '#0f1113',
-					borderColor: '#3f4042',
+					backgroundColor: Colors.gray950,
+					borderColor: Colors.gray700,
 					borderTopWidth: 5,
 				},
-				drawerActiveTintColor: '#97ce4c',
-				drawerInactiveTintColor: '#8ba2ae',
-				sceneContainerStyle: { backgroundColor: '#0f1113' },
+				drawerActiveTintColor: Colors.green400,
+				drawerInactiveTintColor: Colors.gray100,
+				sceneContainerStyle: { backgroundColor: Colors.gray950 },
 			}}
 		>
 			<Drawer.Screen name="Home" options={{ title: 'Characters' }} component={CharactersScreen} />
-			<Drawer.Screen
+			{/* <Drawer.Screen
 				name="Favorites"
 				options={{ title: 'Favorites' }}
 				component={CharactersScreen}
-			/>
+			/> */}
 		</Drawer.Navigator>
 	);
 };
@@ -93,11 +97,11 @@ export default function App() {
 						screenOptions={{
 							headerShown: false,
 							tabBarStyle: {
-								backgroundColor: '#0f1113',
-								borderTopColor: '#3f4042',
+								backgroundColor: Colors.gray950,
+								borderTopColor: Colors.gray700,
 							},
-							tabBarInactiveTintColor: '#8ba2ae',
-							tabBarActiveTintColor: '#97ce4c',
+							tabBarInactiveTintColor: Colors.gray100,
+							tabBarActiveTintColor: Colors.green400,
 						}}
 					>
 						<Tab.Screen

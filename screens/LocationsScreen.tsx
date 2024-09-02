@@ -2,7 +2,7 @@ import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import { FlatList, Text, View } from 'react-native';
 import { getAllCharacters } from '../services/CharactersService';
 import { Card } from '../components/Card';
-import { CharactersScreenProps, LocationsScreenProps } from '../types/navigation';
+import { CharactersScreenProps, LocationsScreenProps } from '../shared/types/navigation';
 
 const LocationsScreen = ({ navigation }: LocationsScreenProps) => {
 	// Access the client
