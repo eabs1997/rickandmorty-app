@@ -82,7 +82,20 @@ const CharactersDrawerNavigator = () => {
 const LocationsStackNavigator = () => {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen name="AllLocations" component={LocationsScreen} />
+			<Stack.Screen
+				options={{
+					contentStyle: {
+						backgroundColor: Colors.gray950,
+						borderTopWidth: 1,
+						borderColor: Colors.gray700,
+					},
+					headerTintColor: Colors.green400,
+					headerStyle: { backgroundColor: Colors.gray950 },
+					title: 'Locations',
+				}}
+				name="AllLocations"
+				component={LocationsScreen}
+			/>
 		</Stack.Navigator>
 	);
 };

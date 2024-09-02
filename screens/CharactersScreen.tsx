@@ -1,6 +1,6 @@
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { FlatList } from 'react-native';
-import { getAllCharacters } from '../services/CharactersService';
+import { getAllCharacters } from '../services/CharacterService';
 import { Card } from '../components/Card';
 import { DrawerProps } from '../shared/types/navigation';
 

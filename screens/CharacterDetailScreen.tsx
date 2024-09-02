@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { View, Text, Image, StyleSheet, ScrollView, SectionList } from 'react-native';
-import { getCharacter } from '../services/CharactersService';
+import { getCharacter } from '../services/CharacterService';
 import { CharacterDetailScreenProps } from '../shared/types/navigation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getEpisodes } from '../services/EpisodeServirce';

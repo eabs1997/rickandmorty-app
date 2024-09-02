@@ -1,11 +1,8 @@
 import { CharacterInterface } from '../shared/interfaces/character';
+import { PaginationInterface } from '../shared/interfaces/pagination';
+
 interface ResultCharactersInterface {
-	info: {
-		count: number;
-		pages: number;
-		next?: string;
-		prev?: string;
-	};
+	info: PaginationInterface;
 	results: CharacterInterface[];
 }
 

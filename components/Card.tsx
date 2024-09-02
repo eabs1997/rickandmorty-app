@@ -1,8 +1,10 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Colors } from '../shared/constants/colors';
 
 export const Card = (props: { item: any; onPress: any }) => {
 	const { item, onPress } = props;
+
 	return (
 		<View style={styles.container}>
 			<Pressable onPress={onPress}>
@@ -14,7 +16,7 @@ export const Card = (props: { item: any; onPress: any }) => {
 							<Ionicons
 								name="ellipse"
 								size={18}
-								color={item.status === 'Alive' ? '#55cc44' : '#d63d2e'}
+								color={item.status === 'Alive' ? Colors.green500 : Colors.red600}
 								style={{ marginEnd: 8 }}
 							/>
 							<Text style={styles.text}>
@@ -23,7 +25,7 @@ export const Card = (props: { item: any; onPress: any }) => {
 						</View>
 					</View>
 					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: '#8ba2ae' }]}>Last known location:</Text>
+						<Text style={[styles.text, { color: Colors.gray100 }]}>Last known location:</Text>
 						<Text style={styles.text}>{item.location.name}</Text>
 					</View>
 				</View>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
 		margin: 16,
 		borderRadius: 16,
 		borderWidth: 1,
-		borderColor: '#3f4042',
+		borderColor: Colors.gray700,
 	},
 	image: {
 		height: 300,
@@ -48,19 +50,19 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 32,
-		color: 'white',
+		color: Colors.white,
 		fontWeight: 'bold',
 	},
 	text: {
-		color: 'white',
+		color: Colors.white,
 		fontSize: 24,
 	},
 	innerContainer: {
 		padding: 12,
 		textAlign: 'left',
-		backgroundColor: '#0f1113',
+		backgroundColor: Colors.gray950,
 		borderTopWidth: 2,
-		borderColor: '#3f4042',
+		borderColor: Colors.gray700,
 		borderBottomRightRadius: 14,
 		borderBottomLeftRadius: 14,
 	},
