@@ -3,17 +3,15 @@ import { FlatList, Text, View, StyleSheet } from 'react-native';
 import { LocationsScreenProps } from '../shared/types/navigation';
 import { getAllLocations } from '../services/LocationService';
 import { Colors } from '../shared/constants/colors';
+import { useLocationsQuery } from '../shared/hooks/useLocationsQuery';
+import { Spinner } from '../components/Spinner';
 
 const LocationsScreen = ({ navigation }: LocationsScreenProps) => {
-	// Queries
-	const { data } = useQuery({
-		queryKey: ['locations'],
-		queryFn: async () => await getAllLocations(),
-	});
+	const { data, fetchNextPage, isFetchingNextPage } = useLocationsQuery();
 
 	return (
 		<FlatList
-			data={data?.results}
+			data={data}
 			renderItem={({ item }) => {
 				return (
 					<View style={styles.container}>
@@ -26,6 +24,8 @@ const LocationsScreen = ({ navigation }: LocationsScreenProps) => {
 				);
 			}}
 			keyExtractor={(item) => `${item.id}`}
+			onEndReached={() => fetchNextPage()}
+			ListFooterComponent={<Spinner isLoading={isFetchingNextPage} />}
 		/>
 	);
 };

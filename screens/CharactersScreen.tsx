@@ -1,22 +1,17 @@
-import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { FlatList } from 'react-native';
+import { useQueryClient, useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { getAllCharacters } from '../services/CharacterService';
 import { Card } from '../components/Card';
 import { DrawerProps } from '../shared/types/navigation';
+import { useCharactersQuery } from '../shared/hooks/useCharactersQuery';
+import { Spinner } from '../components/Spinner';
 
 const CharactersScreen = ({ navigation }: DrawerProps) => {
-	// Access the client
-	const queryClient = useQueryClient();
-
-	// Queries
-	const { data } = useQuery({
-		queryKey: ['characters'],
-		queryFn: async () => await getAllCharacters(),
-	});
+	const { data, fetchNextPage, isFetchingNextPage } = useCharactersQuery();
 
 	return (
 		<FlatList
-			data={data?.results}
+			data={data}
 			renderItem={({ item }) => {
 				return (
 					<Card
@@ -28,6 +23,8 @@ const CharactersScreen = ({ navigation }: DrawerProps) => {
 				);
 			}}
 			keyExtractor={(item) => `${item.id}`}
+			onEndReached={() => fetchNextPage()}
+			ListFooterComponent={<Spinner isLoading={isFetchingNextPage} />}
 		/>
 	);
 };

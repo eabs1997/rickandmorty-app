@@ -1,8 +1,9 @@
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Colors } from '../shared/constants/colors';
+import { CharacterInterface } from '../shared/interfaces/character';
 
-export const Card = (props: { item: any; onPress: any }) => {
+export const Card = (props: { item: CharacterInterface; onPress: () => void }) => {
 	const { item, onPress } = props;
 
 	return (
