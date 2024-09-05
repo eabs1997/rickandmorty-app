@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, SafeAreaView, View, Pressable } from 'react-native';
+import { StyleSheet, TextInput, SafeAreaView, View, Pressable, Keyboard } from 'react-native';
 import { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -8,6 +8,12 @@ export const SearchBar = (props: { onSubmit: (value: string) => void }) => {
 	const { onSubmit } = props;
 
 	const [value, onChangeText] = useState<string>('');
+
+	const handleCloseButton = () => {
+		onSubmit('');
+		onChangeText('');
+		Keyboard.dismiss();
+	};
 
 	return (
 		<SafeAreaView>
@@ -23,12 +29,7 @@ export const SearchBar = (props: { onSubmit: (value: string) => void }) => {
 					maxLength={100}
 				/>
 				{value && (
-					<Pressable
-						onPress={() => {
-							onSubmit('');
-							onChangeText('');
-						}}
-					>
+					<Pressable onPress={handleCloseButton}>
 						<Ionicons name="close-circle" size={16} color={Colors.gray100} />
 					</Pressable>
 				)}
