@@ -18,10 +18,14 @@ import {
 import CharacterDetailScreen from './screens/CharacterDetailScreen';
 import LocationsScreen from './screens/LocationsScreen';
 import { Colors } from './shared/constants/colors';
+import LocationDetailScreen from './screens/LocationDetailScreen';
+import { useState } from 'react';
+import { CharactersContext } from './context/CharacterContext';
+import CharactersFavoritesScreen from './screens/CharactersFavoritesScreen';
 
 const Stack = createNativeStackNavigator<CharactersStackParamList & LocationsStackParamList>();
 const Tab = createBottomTabNavigator<BottomTabParamList>();
-const Drawer = createDrawerNavigator<DrawerParamList & CharactersStackParamList>();
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const queryClient = new QueryClient();
 
@@ -43,8 +47,9 @@ const CharactersStackNavigator = () => {
 					headerTintColor: Colors.green400,
 					headerStyle: { backgroundColor: Colors.gray950 },
 					headerBackTitle: 'Characters',
+					title: '',
 				}}
-				name="Detail"
+				name="CharacterDetail"
 				component={CharacterDetailScreen}
 			/>
 		</Stack.Navigator>
@@ -70,69 +75,79 @@ const CharactersDrawerNavigator = () => {
 			}}
 		>
 			<Drawer.Screen name="Home" options={{ title: 'Characters' }} component={CharactersScreen} />
-			{/* <Drawer.Screen
+			<Drawer.Screen
 				name="Favorites"
 				options={{ title: 'Favorites' }}
-				component={CharactersScreen}
-			/> */}
+				component={CharactersFavoritesScreen}
+			/>
 		</Drawer.Navigator>
 	);
 };
 
 const LocationsStackNavigator = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator
+			screenOptions={{
+				contentStyle: {
+					backgroundColor: Colors.gray950,
+					borderTopWidth: 1,
+					borderColor: Colors.gray700,
+				},
+				headerTintColor: Colors.green400,
+				headerStyle: { backgroundColor: Colors.gray950 },
+			}}
+		>
 			<Stack.Screen
-				options={{
-					contentStyle: {
-						backgroundColor: Colors.gray950,
-						borderTopWidth: 1,
-						borderColor: Colors.gray700,
-					},
-					headerTintColor: Colors.green400,
-					headerStyle: { backgroundColor: Colors.gray950 },
-					title: 'Locations',
-				}}
 				name="AllLocations"
+				options={{ title: 'Locations' }}
 				component={LocationsScreen}
+			/>
+			<Stack.Screen
+				options={{ headerBackTitle: 'Locations', title: '' }}
+				name="LocationDetail"
+				component={LocationDetailScreen}
 			/>
 		</Stack.Navigator>
 	);
 };
 
 export default function App() {
+	const [characters, setCharacters] = useState<number[]>([]);
+
 	return (
 		<>
 			<StatusBar style="light" />
 			<QueryClientProvider client={queryClient}>
-				<NavigationContainer>
-					<Tab.Navigator
-						screenOptions={{
-							headerShown: false,
-							tabBarStyle: {
-								backgroundColor: Colors.gray950,
-								borderTopColor: Colors.gray700,
-							},
-							tabBarInactiveTintColor: Colors.gray100,
-							tabBarActiveTintColor: Colors.green400,
-						}}
-					>
-						<Tab.Screen
-							name="Characters"
-							options={{
-								tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+				<CharactersContext.Provider value={{ characters, setCharacters }}>
+					<NavigationContainer>
+						<Tab.Navigator
+							screenOptions={{
+								headerShown: false,
+								tabBarStyle: {
+									backgroundColor: Colors.gray950,
+									borderTopColor: Colors.gray700,
+								},
+								tabBarInactiveTintColor: Colors.gray100,
+								tabBarActiveTintColor: Colors.green400,
 							}}
-							component={CharactersStackNavigator}
-						/>
-						<Tab.Screen
-							name="Locations"
-							options={{
-								tabBarIcon: ({ color }) => <Ionicons name="location" size={24} color={color} />,
-							}}
-							component={LocationsStackNavigator}
-						/>
-					</Tab.Navigator>
-				</NavigationContainer>
+						>
+							<Tab.Screen
+								name="Characters"
+								options={{
+									tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+								}}
+								component={CharactersStackNavigator}
+							/>
+							<Tab.Screen
+								name="Locations"
+								options={{
+									tabBarIcon: ({ color }) => <Ionicons name="location" size={24} color={color} />,
+								}}
+								component={LocationsStackNavigator}
+							/>
+						</Tab.Navigator>
+					</NavigationContainer>
+				</CharactersContext.Provider>
 			</QueryClientProvider>
 		</>
 	);
