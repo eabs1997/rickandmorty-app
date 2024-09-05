@@ -1,13 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
-import { View, Text, Image, StyleSheet, ScrollView, SectionList } from 'react-native';
-import { getCharacter } from '../services/CharacterService';
-import { CharacterDetailScreenProps } from '../shared/types/navigation';
+import { View, Text, Image, StyleSheet, ScrollView, SectionList, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { getEpisodes } from '../services/EpisodeServirce';
-import { formatEpisodes } from '../utils/FormatEpisodes';
+
+import { CharacterDetailScreenProps } from '../shared/types/navigation';
 import { Colors } from '../shared/constants/colors';
+import { formatEpisodes } from '../utils/FormatEpisodes';
+import { getCharacter } from '../services/CharacterService';
+import { getEpisodes } from '../services/EpisodeService';
+import { useCharactersContext } from '../context/CharacterContext';
+import { CharacterInterface } from '../shared/interfaces/character';
 
 const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
+	const { characters, setCharacters } = useCharactersContext();
+
+	const handledOnPressFav = (data: CharacterInterface) => {
+		if (characters.includes(data.id)) {
+			setCharacters(characters.filter((character) => character !== data.id));
+		} else {
+			setCharacters([...characters, data.id]);
+		}
+	};
+
 	// Queries
 	const { data, isLoading } = useQuery({
 		queryKey: ['character', route.params.id],
@@ -45,6 +58,15 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 								<Text style={styles.text}>
 									{data.status} - {data.species}
 								</Text>
+								<Pressable onPress={() => handledOnPressFav(data)} style={{ marginStart: 'auto' }}>
+									<View>
+										<Ionicons
+											name={characters.includes(data.id) ? 'star' : 'star-outline'}
+											color={characters.includes(data.id) ? Colors.yellow : Colors.white}
+											size={28}
+										/>
+									</View>
+								</Pressable>
 							</View>
 						</View>
 					</View>
