@@ -1,24 +1,11 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import type { DrawerScreenProps } from '@react-navigation/drawer';
-
-export type DrawerParamList = {
-	Home: undefined;
-
-	CharacterDetail: { id: number };
-
-	Favorites: undefined;
-};
 
 export type CharactersStackParamList = {
 	AllCharacters: undefined;
 
 	CharacterDetail: { id: number };
 };
-
-export type DrawerHomeProps = DrawerScreenProps<DrawerParamList, 'Home'>;
-
-export type DrawerFavoritesProps = DrawerScreenProps<DrawerParamList, 'Favorites'>;
 
 export type LocationsStackParamList = {
 	AllLocations: undefined;
@@ -31,6 +18,11 @@ export type LocationsStackParamList = {
 export type CharactersScreenProps = NativeStackScreenProps<
 	CharactersStackParamList,
 	'AllCharacters'
+>;
+
+export type CharacterScreenProps = NativeStackScreenProps<
+	CharactersStackParamList,
+	'CharacterDetail'
 >;
 
 export type LocationsScreenProps = NativeStackScreenProps<LocationsStackParamList, 'AllLocations'>;
@@ -47,8 +39,11 @@ export type CharacterDetailScreenProps = NativeStackScreenProps<
 
 export type BottomTabParamList = {
 	Characters: undefined;
-	Episodes: undefined;
 	Locations: undefined;
+	Favorites: undefined;
+	CharacterDetail: { id: number; screen: string };
 };
 
 export type BottomTabProps = BottomTabScreenProps<BottomTabParamList, 'Characters'>;
+
+export type BottomTabFavoritesProps = BottomTabScreenProps<BottomTabParamList, 'Favorites'>;

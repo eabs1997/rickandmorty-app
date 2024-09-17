@@ -1,17 +1,19 @@
-import { useQuery } from '@tanstack/react-query';
-import { View, Text, Image, StyleSheet, ScrollView, SectionList, Pressable } from 'react-native';
+import { View, Text, Image, ScrollView, SectionList, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { CharacterDetailScreenProps } from '../shared/types/navigation';
-import { Colors } from '../shared/constants/colors';
-import { formatEpisodes } from '../utils/FormatEpisodes';
-import { getCharacter } from '../services/CharacterService';
-import { getEpisodes } from '../services/EpisodeService';
-import { useCharactersContext } from '../context/CharacterContext';
-import { CharacterInterface } from '../shared/interfaces/character';
+import { CharacterDetailScreenProps } from '../../shared/types/navigation';
+import { Colors } from '../../shared/constants/colors';
+import { useCharactersContext } from '../../context/CharacterContext';
+import { CharacterInterface } from '../../shared/interfaces/character';
+import { CharacterDetailScreenStyles } from './CharacterDetailScreenStyles';
+import { useCharacterQuery } from './useCharacterQuery';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
+	const styles = CharacterDetailScreenStyles;
 	const { characters, setCharacters } = useCharactersContext();
+
+	const { data, isLoading, episodes } = useCharacterQuery(route);
 
 	const handledOnPressFav = (data: CharacterInterface) => {
 		if (characters.includes(data.id)) {
@@ -21,26 +23,9 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 		}
 	};
 
-	// Queries
-	const { data, isLoading } = useQuery({
-		queryKey: ['character', route.params.id],
-		queryFn: async () => await getCharacter(route.params.id),
-	});
-
-	// Then get the user's projects
-	const { data: episodes, isLoading: isLoadingEpisodes } = useQuery({
-		queryKey: ['episodes', data?.episode],
-		queryFn: async () => {
-			const resp = await getEpisodes(data?.episode!);
-			const dataToFormat = Array.isArray(resp) ? resp : [resp];
-			return formatEpisodes(dataToFormat);
-		},
-		// The query will not execute until the userId exists
-		enabled: !!data?.episode,
-	});
-
-	return (
-		!isLoading &&
+	return isLoading ? (
+		<Spinner isLoading={isLoading} />
+	) : (
 		data && (
 			<ScrollView>
 				<View style={styles.container}>
@@ -99,7 +84,7 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 						<Ionicons name="list" size={32} color="white" style={{ marginEnd: 8 }} />
 						<Text style={{ color: 'white', fontSize: 32 }}>Seasons</Text>
 					</View>
-					{!isLoadingEpisodes && episodes && (
+					{!isLoading && episodes && (
 						<SectionList
 							sections={episodes}
 							scrollEnabled={false}
@@ -126,48 +111,3 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 };
 
 export default CharacterDetailScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		margin: 16,
-		backgroundColor: Colors.gray950,
-		borderRadius: 16,
-		borderWidth: 1,
-		borderColor: Colors.gray700,
-	},
-	image: {
-		height: 400,
-		borderTopRightRadius: 16,
-		borderTopLeftRadius: 16,
-		flex: 1,
-	},
-	title: {
-		fontSize: 32,
-		color: Colors.white,
-		fontWeight: 'bold',
-	},
-	subText: {
-		color: Colors.white,
-		fontSize: 16,
-	},
-	item: {
-		marginTop: 16,
-	},
-	text: {
-		color: Colors.white,
-		fontSize: 24,
-	},
-	innerContainer: {
-		padding: 12,
-		textAlign: 'left',
-		backgroundColor: Colors.gray950,
-		borderTopWidth: 2,
-		borderColor: Colors.gray700,
-		borderBottomRightRadius: 14,
-		borderBottomLeftRadius: 14,
-	},
-	infoContainer: {
-		marginTop: 10,
-	},
-});

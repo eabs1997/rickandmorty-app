@@ -2,9 +2,12 @@ import { StyleSheet, TextInput, SafeAreaView, View, Pressable, Keyboard } from '
 import { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { Colors } from '../shared/constants/colors';
+import { Colors } from '../../shared/constants/colors';
+import { SearchBarStyles } from './SearchBarStyles';
 
 export const SearchBar = (props: { onSubmit: (value: string) => void }) => {
+	const styles = SearchBarStyles;
+
 	const { onSubmit } = props;
 
 	const [value, onChangeText] = useState<string>('');
@@ -37,21 +40,3 @@ export const SearchBar = (props: { onSubmit: (value: string) => void }) => {
 		</SafeAreaView>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		marginHorizontal: 16,
-		marginVertical: 8,
-		borderWidth: 1,
-		borderRadius: 8,
-		padding: 8,
-		height: 40,
-		borderColor: Colors.gray700,
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	input: {
-		flex: 1,
-		color: Colors.white,
-	},
-});

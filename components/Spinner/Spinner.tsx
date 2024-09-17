@@ -1,16 +1,10 @@
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { SpinnerStyles } from './SpinnerStyles';
 
 export const Spinner = (props: { isLoading: boolean }) => {
+	const styles = SpinnerStyles;
+
 	const { isLoading } = props;
 
 	return <View style={styles.container}>{isLoading && <ActivityIndicator />}</View>;
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'row',
-		height: 100,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});

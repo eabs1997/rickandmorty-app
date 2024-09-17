@@ -1,7 +1,7 @@
 import { CharacterInterface } from '../shared/interfaces/character';
 import { PaginationInterface } from '../shared/interfaces/pagination';
 
-interface ResultCharactersInterface {
+export interface ResultCharactersInterface {
 	info: PaginationInterface;
 	results: CharacterInterface[];
 }
@@ -14,7 +14,6 @@ export const getAllCharacters = async (page = 1): Promise<ResultCharactersInterf
 export const getCharacters = async (
 	residents: string[] | number[]
 ): Promise<CharacterInterface[] | CharacterInterface> => {
-	console.log(residents);
 	const ids = residents.every((item) => typeof item === 'number')
 		? residents
 		: residents.map((resident) => resident.split('character/')[1]);

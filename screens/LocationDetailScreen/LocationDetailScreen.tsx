@@ -1,35 +1,38 @@
-import { useQuery } from '@tanstack/react-query';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { LocationDetailScreenProps } from '../shared/types/navigation';
-import { Colors } from '../shared/constants/colors';
-import { getLocation } from '../services/LocationService';
-import { getCharacters } from '../services/CharacterService';
-import { Spinner } from '../components/Spinner';
-import { Card } from '../components/Card';
+import { LocationDetailScreenProps, LocationsStackParamList } from '../../shared/types/navigation';
+import { Colors } from '../../shared/constants/colors';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { Card } from '../../components/Card/Card';
+import { LocationDetailScreenStyles } from './LocationDetailScreenStyles';
+import { useLocationQuery } from './useLocationQuery';
+import { CharacterInterface } from '../../shared/interfaces/character';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const LocationDetailScreen = ({ route, navigation }: LocationDetailScreenProps) => {
-	// Queries
-	const { data, isLoading } = useQuery({
-		queryKey: ['location', route.params.id],
-		queryFn: async () => await getLocation(route.params.id),
-	});
+	const styles = LocationDetailScreenStyles;
 
-	// Then get the user's projects
-	const { data: characters, isLoading: isLoadingCharacters } = useQuery({
-		queryKey: ['charactersByLocation', data?.residents],
-		queryFn: async () => {
-			const resp = await getCharacters(data?.residents!);
-			const dataToFormat = Array.isArray(resp) ? resp : [resp];
-			return dataToFormat;
-		},
-		// The query will not execute until the userId exists
-		enabled: !!data?.residents,
-	});
-	console.log(data);
-	return (
-		!isLoading &&
+	const { isLoading, data, characters } = useLocationQuery(route);
+
+	function renderItemHandler(
+		item: CharacterInterface,
+		navigation: NativeStackNavigationProp<LocationsStackParamList, 'LocationDetail', undefined>
+	) {
+		return (
+			<Card
+				item={item}
+				horizontal={true}
+				onPress={() => {
+					navigation.navigate('CharacterDetail', { id: item.id, screen: 'Characters' });
+				}}
+			/>
+		);
+	}
+
+	return isLoading ? (
+		<Spinner isLoading={isLoading} />
+	) : (
 		data && (
 			<ScrollView>
 				<View style={[styles.container, { padding: 12 }]}>
@@ -73,24 +76,14 @@ const LocationDetailScreen = ({ route, navigation }: LocationDetailScreenProps) 
 						<Text style={{ color: Colors.green400, fontSize: 32 }}>Residents</Text>
 					</View>
 				</View>
-				{isLoadingCharacters ? (
-					<Spinner isLoading={isLoadingCharacters} />
+				{isLoading ? (
+					<Spinner isLoading={isLoading} />
 				) : (
 					characters && (
 						<FlatList
 							data={characters}
 							scrollEnabled={false}
-							renderItem={({ item }) => {
-								return (
-									<Card
-										item={item}
-										horizontal={true}
-										onPress={() => {
-											navigation.navigate('CharacterDetail', { id: item.id, screen: 'Characters' });
-										}}
-									/>
-								);
-							}}
+							renderItem={({ item }) => renderItemHandler(item, navigation)}
 							keyExtractor={(item) => `${item.id}`}
 						/>
 					)
@@ -101,26 +94,3 @@ const LocationDetailScreen = ({ route, navigation }: LocationDetailScreenProps) 
 };
 
 export default LocationDetailScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		margin: 16,
-		backgroundColor: Colors.gray950,
-		borderRadius: 16,
-		borderWidth: 1,
-		borderColor: Colors.gray700,
-	},
-	title: {
-		fontSize: 32,
-		color: Colors.white,
-		fontWeight: 'bold',
-	},
-	text: {
-		color: Colors.white,
-		fontSize: 22,
-	},
-	infoContainer: {
-		marginTop: 10,
-	},
-});
