@@ -7,7 +7,7 @@ import { useCharactersContext } from '../../context/CharacterContext';
 import { CharacterInterface } from '../../shared/interfaces/character';
 import { CharacterDetailScreenStyles } from './CharacterDetailScreenStyles';
 import { useCharacterQuery } from './useCharacterQuery';
-import { Spinner } from '../../components/Spinner/Spinner';
+import { Skeleton } from 'moti/skeleton';
 
 const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 	const styles = CharacterDetailScreenStyles;
@@ -23,88 +23,168 @@ const CharacterDetailScreen = ({ route }: CharacterDetailScreenProps) => {
 		}
 	};
 
-	return isLoading ? (
-		<Spinner isLoading={isLoading} />
-	) : (
+	return (
 		data && (
 			<ScrollView>
-				<View style={styles.container}>
-					<Image resizeMode="cover" source={{ uri: `${data.image}` }} style={styles.image} />
-					<View style={styles.innerContainer}>
-						<View>
-							<Text style={styles.title}>{data.name}</Text>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Ionicons
-									name="ellipse"
-									size={18}
-									color={data.status === 'Alive' ? Colors.green500 : Colors.red600}
-									style={{ marginEnd: 8 }}
-								/>
-								<Text style={styles.text}>
-									{data.status} - {data.species}
-								</Text>
-								<Pressable onPress={() => handledOnPressFav(data)} style={{ marginStart: 'auto' }}>
-									<View>
-										<Ionicons
-											name={characters.includes(data.id) ? 'star' : 'star-outline'}
-											color={characters.includes(data.id) ? Colors.yellow : Colors.white}
-											size={28}
-										/>
-									</View>
-								</Pressable>
+				<Skeleton.Group show={isLoading}>
+					<View style={styles.container}>
+						<Skeleton radius={16} colors={[Colors.gray400, Colors.gray700, Colors.gray950]}>
+							<Image
+								resizeMode="cover"
+								source={{ uri: `${isLoading ? 'mockUrl' : data.image}` }}
+								style={styles.image}
+							/>
+						</Skeleton>
+						<View style={styles.innerContainer}>
+							<View>
+								<Skeleton
+									radius={'square'}
+									colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+								>
+									<Text style={styles.title}>{data.name}</Text>
+								</Skeleton>
+								<View
+									style={{
+										marginTop: 4,
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+									}}
+								>
+									<Skeleton
+										radius={'square'}
+										height={24}
+										colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+									>
+										<View style={{ flexDirection: 'row', alignItems: 'center', width: '88%' }}>
+											<Ionicons
+												name="ellipse"
+												size={18}
+												color={data.status === 'Alive' ? Colors.green500 : Colors.red600}
+												style={{ marginEnd: 8 }}
+											/>
+											<Text style={styles.text} numberOfLines={1}>
+												{data.status} - {data.species}
+											</Text>
+										</View>
+									</Skeleton>
+									<Skeleton
+										radius={'square'}
+										height={28}
+										colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+									>
+										<Pressable onPress={() => handledOnPressFav(data)}>
+											<View>
+												<Ionicons
+													name={characters.includes(data.id) ? 'star' : 'star-outline'}
+													color={characters.includes(data.id) ? Colors.yellow : Colors.white}
+													size={28}
+												/>
+											</View>
+										</Pressable>
+									</Skeleton>
+								</View>
 							</View>
 						</View>
 					</View>
-				</View>
-				<View style={[styles.container, { padding: 12 }]}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons
-							name="information-circle-outline"
-							size={32}
-							color={'white'}
-							style={{ marginEnd: 8 }}
-						/>
-						<Text style={{ color: 'white', fontSize: 32 }}>Information</Text>
+					<View style={[styles.container, { padding: 12 }]}>
+						<Skeleton
+							radius={'square'}
+							height={32}
+							width={'60%'}
+							colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+						>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Ionicons
+									name="information-circle-outline"
+									size={32}
+									color={'white'}
+									style={{ marginEnd: 8 }}
+								/>
+								<Text style={{ color: 'white', fontSize: 32 }}>Information</Text>
+							</View>
+						</Skeleton>
+						<View style={styles.infoContainer}>
+							<Skeleton
+								radius={'square'}
+								height={24}
+								width={'30%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={[styles.text, { color: Colors.gray100 }]}>Gender</Text>
+							</Skeleton>
+							<Skeleton
+								radius={'square'}
+								height={24}
+								width={'30%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={styles.text}>{data.gender}</Text>
+							</Skeleton>
+						</View>
+						<View style={styles.infoContainer}>
+							<Skeleton
+								radius={'square'}
+								width={'60%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={[styles.text, { color: Colors.gray100 }]}>Origin</Text>
+							</Skeleton>
+							<Skeleton
+								radius={'square'}
+								height={24}
+								width={'90%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={styles.text}>{data.origin.name}</Text>
+							</Skeleton>
+						</View>
+						<View style={styles.infoContainer}>
+							<Skeleton
+								radius={'square'}
+								height={24}
+								width={'70%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={[styles.text, { color: Colors.gray100 }]}>Last known location:</Text>
+							</Skeleton>
+							<Skeleton
+								radius={'square'}
+								height={24}
+								width={'90%'}
+								colors={[Colors.gray400, Colors.gray700, Colors.gray950]}
+							>
+								<Text style={styles.text}>{data.location.name}</Text>
+							</Skeleton>
+						</View>
 					</View>
-					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: Colors.gray100 }]}>Gender</Text>
-						<Text style={styles.text}>{data.gender}</Text>
-					</View>
-					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: Colors.gray100 }]}>Origin</Text>
-						<Text style={styles.text}>{data.origin.name}</Text>
-					</View>
-					<View style={styles.infoContainer}>
-						<Text style={[styles.text, { color: Colors.gray100 }]}>Last known location:</Text>
-						<Text style={styles.text}>{data.location.name}</Text>
-					</View>
-				</View>
-				<View style={[styles.container, { padding: 12 }]}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Ionicons name="list" size={32} color="white" style={{ marginEnd: 8 }} />
-						<Text style={{ color: 'white', fontSize: 32 }}>Seasons</Text>
-					</View>
-					{!isLoading && episodes && (
-						<SectionList
-							sections={episodes}
-							scrollEnabled={false}
-							keyExtractor={(item, i) => `${item.id}`}
-							renderItem={({ item }) => (
-								<View style={styles.item}>
-									<Text style={styles.text}>
-										EP {item.episode.split('E')[1]} {item.name}
+					<View style={[styles.container, { padding: 12 }]}>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Ionicons name="list" size={32} color="white" style={{ marginEnd: 8 }} />
+							<Text style={{ color: 'white', fontSize: 32 }}>Seasons</Text>
+						</View>
+						{!isLoading && episodes && (
+							<SectionList
+								sections={episodes}
+								scrollEnabled={false}
+								keyExtractor={(item, i) => `${item.id}`}
+								renderItem={({ item }) => (
+									<View style={styles.item}>
+										<Text style={styles.text}>
+											EP {item.episode.split('E')[1]} {item.name}
+										</Text>
+										<Text style={styles.subText}>{item.air_date}</Text>
+									</View>
+								)}
+								renderSectionHeader={({ section: { title } }) => (
+									<Text style={[styles.title, { marginTop: 12, color: Colors.gray100 }]}>
+										{title}
 									</Text>
-									<Text style={styles.subText}>{item.air_date}</Text>
-								</View>
-							)}
-							renderSectionHeader={({ section: { title } }) => (
-								<Text style={[styles.title, { marginTop: 12, color: Colors.gray100 }]}>
-									{title}
-								</Text>
-							)}
-						/>
-					)}
-				</View>
+								)}
+							/>
+						)}
+					</View>
+				</Skeleton.Group>
 			</ScrollView>
 		)
 	);

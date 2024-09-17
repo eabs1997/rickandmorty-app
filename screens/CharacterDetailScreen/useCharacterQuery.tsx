@@ -4,6 +4,7 @@ import { getEpisodes } from '../../services/EpisodeService';
 import { formatEpisodes } from '../../utils/FormatEpisodes';
 import { RouteProp } from '@react-navigation/native';
 import { CharactersStackParamList } from '../../shared/types/navigation';
+import { mockCharacter } from '../../shared/mocks/mockCharacter';
 
 export const useCharacterQuery = (
 	route: RouteProp<CharactersStackParamList, 'CharacterDetail'>
@@ -26,5 +27,5 @@ export const useCharacterQuery = (
 		enabled: !!res.data?.episode,
 	});
 
-	return { ...res, isLoading, episodes };
+	return { ...res, isLoading, episodes, data: isLoading ? mockCharacter : res.data };
 };

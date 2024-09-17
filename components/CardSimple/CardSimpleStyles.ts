@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Colors } from '../../shared/constants/colors';
 
-export const LocationsScreenStyles = StyleSheet.create({
+export const CardSimpleStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		margin: 16,

@@ -2,7 +2,6 @@ import { FlatList, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
-import { Card } from '../../components/Card/Card';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { NotFound } from '../../components/NotFound/NotFound';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
@@ -12,6 +11,7 @@ import { Colors } from '../../shared/constants/colors';
 import { CharacterInterface } from '../../shared/interfaces/character';
 import { BottomTabFavoritesProps, BottomTabParamList } from '../../shared/types/navigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import Card from '../../components/Card/Card';
 
 const CharactersFavoritesScreen = ({ navigation }: BottomTabFavoritesProps) => {
 	const [searchValue, onChangeText] = useState<string>('');

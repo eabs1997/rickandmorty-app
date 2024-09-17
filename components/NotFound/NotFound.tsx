@@ -12,7 +12,13 @@ export const NotFound = (props: { reFecth?: () => void }) => {
 
 			<Text style={styles.text}>Sorry, we couldn't find any results</Text>
 			{reFecth && (
-				<Pressable style={styles.buttonContainer} onPress={reFecth}>
+				<Pressable
+					style={({ pressed }) => [
+						styles.buttonContainer,
+						pressed && { backgroundColor: Colors.gray850 },
+					]}
+					onPress={reFecth}
+				>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={styles.buttonLabel}>Try Again!</Text>
 						<Ionicons name="refresh" size={16} color={Colors.white} />
